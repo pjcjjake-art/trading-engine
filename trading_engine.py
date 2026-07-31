@@ -125,17 +125,22 @@ def ai_generate_signals(market_data, watchlist_tickers):
 Today's date: {today}
 Data: {json.dumps(market_data[:10], indent=2)}
 
-For each ticker where you see a genuinely actionable setup, return a trade idea.
-Skip tickers with no clear edge — do not force an idea for every ticker.
+For each ticker where you see a genuinely actionable setup, decide the direction based on
+where the clean move actually points — do not default to buying just because a ticker is on
+the list. Skip tickers with no clear edge — do not force an idea for every ticker.
 Score confidence honestly on a 0-10 scale where 8+ means "I would act on this with real money right now."
 Most setups should score well below 8. Only score 8+ when the signal is unusually clean and well-supported.
 
-Ideas can be equity (simple buy/sell of shares) or single-leg options (long call, long put,
-covered call, cash-secured put). Only propose options when there's a clear reason options fit
-better than shares. Never propose multi-leg spreads.
+For equities: pick "long" (bullish — you expect the price to rise) or "short" (bearish — you
+expect the price to fall; this opens a real short position, borrowing shares to sell). Base the
+direction purely on what the data shows, not on a bias toward buying.
+
+For options (only when there's a clear reason options fit better than shares — leverage on high
+conviction, defined risk, income on a stalled name): single-leg only (long call, long put, covered
+call, cash-secured put). Never propose multi-leg spreads.
 
 Return ONLY a valid JSON array, no markdown, no backticks, no explanation. Each object:
-For equity: {{"symbol": "TICKER", "asset_type": "equity", "direction": "buy"|"sell", "thesis": "one sentence, max 200 chars", "score": number}}
+For equity: {{"symbol": "TICKER", "asset_type": "equity", "direction": "long"|"short", "thesis": "one sentence, max 200 chars", "score": number}}
 For options: {{"symbol": "TICKER", "asset_type": "option", "direction": "buy"|"sell", "option_type": "call"|"put", "strike": number, "expiration": "YYYY-MM-DD", "position_effect": "open"|"close", "contracts": 1, "thesis": "one sentence, max 200 chars", "score": number}}
 
 If nothing is actionable, return an empty array []."""
