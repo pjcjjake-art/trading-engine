@@ -159,8 +159,30 @@ If nothing is actionable, return an empty array []."""
         return []
 
 
+def manage_open_positions():
+    """Ask the control center to check every open position against its
+    stop-loss/take-profit thresholds and close anything past either one —
+    no approval needed."""
+    try:
+        resp = requests.post(f"{CONTROL_CENTER_URL}/api/positions/manage", timeout=30)
+        resp.raise_for_status()
+        result = resp.json()
+        if result.get("closed"):
+            for c in result["closed"]:
+                if c.get("ok"):
+                    print(f"  CLOSED {c['symbol']} ({c['reason']}): {c['pnl_pct']:+.2f}% / ${c['pnl_usd']:+.2f}")
+                else:
+                    print(f"  [Error] Failed to close {c['symbol']}: {c.get('error')}")
+        else:
+            print(f"  Checked {result.get('checked', 0)} open position(s) — none past stop-loss/take-profit")
+    except Exception as e:
+        print(f"  [Error] Position management check failed: {e}")
+
+
 def run_cycle():
     print(f"\n[{time.strftime('%H:%M:%S')}] Scan starting...")
+
+    manage_open_positions()
 
     trading_wl = load(TRADING_WATCHLIST_FILE, [])
     trading_tickers = [w["ticker"] for w in trading_wl]
