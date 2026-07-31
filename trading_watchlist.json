@@ -1,0 +1,13 @@
+[
+  {"ticker": "IONQ", "type": "Stock"},
+  {"ticker": "SMR", "type": "Stock"},
+  {"ticker": "SLV", "type": "Stock"},
+  {"ticker": "GLD", "type": "Stock"},
+  {"ticker": "GDX", "type": "Stock"},
+  {"ticker": "SPY", "type": "Stock"},
+  {"ticker": "QQQ", "type": "Stock"},
+  {"ticker": "IWM", "type": "Stock"},
+  {"ticker": "TLT", "type": "Stock"},
+  {"ticker": "NVDA", "type": "Stock"},
+  {"ticker": "AMD", "type": "Stock"}
+]
