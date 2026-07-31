@@ -30,12 +30,12 @@ TRADING_WATCHLIST_FILE = "trading_watchlist.json"
 
 # Broad, liquid universe scanned each cycle for top movers, independent of
 # your explicit trading watchlist — catches opportunities you haven't listed.
+# Narrow, gold- and index-focused universe — deliberately excludes single
+# stocks and crypto to avoid earnings/news-driven noise unrelated to the
+# technical/momentum setups this engine is built to evaluate.
 MARKET_UNIVERSE = [
-    "AAPL","MSFT","NVDA","GOOGL","AMZN","META","TSLA","AMD","NFLX","AVGO",
-    "JPM","BAC","XOM","CVX","UNH","JNJ","V","MA","HD","WMT",
-    "SPY","QQQ","IWM","DIA","GLD","SLV",
-    "COIN","MSTR","PLTR","SOFI",
-    "BTC-USD","ETH-USD","SOL-USD",
+    "GLD", "SLV", "GDX",       # gold, silver, gold miners
+    "SPY", "QQQ", "IWM", "DIA",  # S&P 500, Nasdaq, Russell 2000, Dow
 ]
 
 if not ANTHROPIC_KEY:
